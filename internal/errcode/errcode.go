@@ -41,16 +41,12 @@ func (e *Error) Message() string {
 
 func (e *Error) StatusCode() int {
 	switch e.code {
-	case UnknownError.code:
-		return http.StatusInternalServerError
+	case InvalidParams.code, DuplicateRecords.code, RecordNotExists.code:
+		return http.StatusBadRequest
 	case NotFound.code:
 		return http.StatusNotFound
-	case InvalidParams.code:
+	case UnknownError.code:
 		fallthrough
-	case DuplicateRecords.code:
-		fallthrough
-	case RecordNotExists.code:
-		return http.StatusBadRequest
 	default:
 		return http.StatusInternalServerError
 	}
